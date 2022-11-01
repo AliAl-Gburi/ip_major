@@ -1,0 +1,5 @@
+<%= if Guardian.Plug.authenticated?(@conn, []) do %>
+<h1><%= gettext "Welcome back %{firstname}!", firstname: @user.first_name %></h1>
+<% else %>
+    <h1> <%= gettext "Welcome!" %></h1>
+<% end %>

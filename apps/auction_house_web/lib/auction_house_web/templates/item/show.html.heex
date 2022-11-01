@@ -1,0 +1,96 @@
+<h1><%= gettext "Show Item" %></h1>
+<%= if @error do %>
+<div class="alert alert-danger">
+  <p>Something Went Wrong</p>
+</div>
+<% end %>
+<ul>
+<%= for i <- @image do %>
+  <!--<img src={Routes.static_path(@conn, "/images/lemme.jpeg")} alt="Phoenix Framework Logo"/>-->
+  
+  <div class="my-images">
+    <%= img_tag Routes.image_path(@conn, :display, @item.auction_id, @item.id, i.id) %>
+  </div>
+<% end %>
+
+
+  <li>
+    <strong><%= gettext "Name: " %></strong>
+    <%= @item.name %>
+  </li>
+
+  <li>
+    <strong><%= gettext "Description: " %></strong>
+    <%= @item.description %>
+  </li>
+
+  <li>
+    <strong><%= gettext "Reserve: " %></strong>
+    <%= @item.reserve %>
+  </li>
+
+  <li>
+    <strong><%= gettext "Bid start date: " %></strong>
+    <%= @item.bid_start_date %>
+  </li>
+
+  <li>
+    <strong><%= gettext "Bid end date: " %></strong>
+    <%= @item.bid_end_date %>
+  </li>
+
+  <li>
+    <strong> <%= gettext "Highest Bid: " %></strong>
+    <%= @highestbid %>
+  </li>
+  <%= if Guardian.Plug.authenticated?(@conn, []) do %>
+  <li>
+  <strong> <%= gettext "Your Highest Bid: " %></strong>
+  <%= @yhighestbid %>
+  </li>
+  <% end %>
+  
+
+</ul>
+
+<%= if !AuctionHouseWeb.Plugs.AuthorizationPlug.userOwnsAuction(@conn, @item.auction_id) && Guardian.Plug.authenticated?(@conn, []) do %>
+
+<%= form_for @bidamount, Routes.item_path(@conn, :bid, @item.auction_id, @item), fn f -> %>
+  <div class="form-group">
+    <label><%= gettext "Bid: " %></label>
+    <%= text_input f, :bidamount %>
+  </div>
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-default" %>
+  </div>
+<% end %>
+<% end %>
+
+<%= if AuctionHouseWeb.Plugs.AuthorizationPlug.userOwnsAuction(@conn, @item.auction_id) do %>
+<!--<%= form_for @changeset, Routes.image_path(@conn, :create2, @auction_id, @item.id), 
+             [multipart: true], fn f -> %>
+  <div class="form-group">
+    <label>Upload Image</label>
+    <%= file_input f, :image %>
+    <%= error_tag f, :image %>
+  </div>
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-default" %>
+  </div>
+<% end %>-->
+<section class="row">
+  <%= form_for @conn, Routes.image_path(@conn, :create2, @auction_id, @item.id), 
+                        [multipart: true], fn f-> %>
+
+  <%= file_input f, :upload, class: "form-control" , multiple: true%>
+  <%= submit "Upload", class: "btn btn-primary" %>
+
+  <% end %>
+</section>
+<% end %>
+
+
+<%= if AuctionHouseWeb.Plugs.AuthorizationPlug.userOwnsAuction(@conn, @item.auction_id) do %>
+<span><%= link "Edit", to: Routes.item_path(@conn, :edit, @auction_id, @item) %></span> |
+<% end %>
+<span><%= link "Back", to: Routes.auction_path(@conn, :show, @item.auction_id ) %></span>

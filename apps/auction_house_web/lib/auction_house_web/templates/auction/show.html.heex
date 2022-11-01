@@ -1,0 +1,22 @@
+<h1><%= gettext "Show Auction" %></h1>
+
+<ul>
+
+  <li>
+    <strong><%= gettext "Name:" %></strong>
+    <%= @auction.name %>
+  </li>
+
+  <li>
+    <strong><%= gettext "Description:" %></strong>
+    <%= @auction.description %>
+  </li>
+
+</ul>
+
+<%= render "auctionItems.html", %{conn: @conn ,auction: @auction, id: @auction.id} %>
+
+<%= if AuctionHouseWeb.Plugs.AuthorizationPlug.userOwnsAuction(@conn, @auction.id) do %>
+<span><%= link "Edit", to: Routes.auction_path(@conn, :edit, @auction) %></span> |  
+<% end %>
+<span><%= link "Back", to: Routes.auction_path(@conn, :allAuctions) %></span>

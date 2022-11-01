@@ -1,0 +1,47 @@
+<.form let={f} for={@changeset} action={@action}>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p><%= gettext "Oops, something went wrong! Please check the errors below." %></p>
+    </div>
+  <% end %>
+  <div class="my-container">
+  <div class="mb-3">
+  <%= label f, :first_name, class: "form-label" %>
+  <%= text_input f, :first_name, class: "form-control" %>
+  <%= error_tag f, :first_name %>
+  </div>
+  
+  <div class="mb-3">
+  <%= label f, :last_name,  class: "form-label"  %>
+  <%= text_input f, :last_name, class: "form-control" %>
+  <%= error_tag f, :last_name %>
+  </div>
+
+  <div class="mb-3">
+  <%= label f, :email,  class: "form-label"  %>
+  <%= text_input f, :email, class: "form-control" %>
+  <%= error_tag f, :email %>
+  </div>
+  <div class="mb-3">
+  <%= label f, :date_of_birth,  class: "form-label"  %>
+  <%= date_select f, :date_of_birth, class: "form-select", year: [options: 1910..2021] %>
+  <%= error_tag f, :date_of_birth %>
+</div>
+<div class="mb-3">
+  <%= label f, :password,  class: "form-label"  %>
+  <%= text_input f, :password, class: "form-control" %>
+  <%= error_tag f, :password %>
+  </div>
+ <div class="mb-3">
+  <%= label f, :username,  class: "form-label"  %>
+  <%= text_input f, :username, class: "form-control" %>
+  <div class="invalid-feedback">
+  <%= error_tag f, :username%>
+  </div>
+  </div>
+
+  <div>
+    <%= submit "Sign up", class: "btn btn-primary" %>
+  </div>
+  </div>
+</.form>

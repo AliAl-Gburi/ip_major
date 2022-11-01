@@ -1,0 +1,33 @@
+<h1>Listing Auctions</h1>
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th><%= gettext "Name" %></th>
+      <th><%= gettext "Description" %></th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for auction <- @auctions do %>
+    <tr>
+      <td><%= auction.name %></td>
+      <td><%= auction.description %></td>
+     
+
+      <td>
+        
+        <span><%= link "Show", to: Routes.auction_path(@conn, :show, auction) %></span>
+        <%= if AuctionHouseWeb.Plugs.AuthorizationPlug.userOwnsAuction(@conn, auction.id) do %>
+        <span><%= link "Edit", to: Routes.auction_path(@conn, :edit, auction) %></span>
+        <span><%= link "Delete", to: Routes.auction_path(@conn, :delete, auction), method: :delete, data: [confirm: "Are you sure?"] %></span>
+        <% end %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+<%= if Guardian.Plug.authenticated?(@conn, []) do %>
+<span><%= link "New Auction", to: Routes.auction_path(@conn, :new) %></span>
+<% end %>

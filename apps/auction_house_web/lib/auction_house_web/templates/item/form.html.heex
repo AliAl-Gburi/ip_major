@@ -1,0 +1,49 @@
+<.form let={f} for={@changeset} action={@action}>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p><%= gettext "Oops, something went wrong! Please check the errors below." %></p>
+    </div>
+  <% end %>
+  <div class="my-container">
+  <div class="mb-3">
+  <%= label f, :name, class: "form-label"  %>
+  <%= text_input f, :name , class: "form-control"%>
+  <%= error_tag f, :name %>
+  </div>
+
+  <div class="mb-3">
+
+  <%= label f, :description, class: "form-label"  %>
+  <%= text_input f, :description , class: "form-control"%>
+  <%= error_tag f, :description %>
+  </div>
+
+  <div class="mb-3">
+
+  <%= label f, :reserve, class: "form-label"  %>
+  <%= number_input f, :reserve , class: "form-control"%>
+  <%= error_tag f, :reserve %>
+  </div>
+
+  <div class="mb-3">
+
+  <%= label f, :bid_start_date, class: "form-label"  %>
+  <%= datetime_select f, :bid_start_date, class: "form-control", year: [options: 2022..2024] %>
+  <%= error_tag f, :bid_start_date %>
+  </div>
+
+  <div class="mb-3">
+
+  <%= label f, :bid_end_date, class: "form-label"  %>
+  <%= datetime_select f, :bid_end_date, class: "form-control", year: [options: 2022..2024]  %>
+  <%= error_tag f, :bid_end_date %>
+  </div>
+
+  
+
+  <div>
+    <%= submit "Save", class: "btn btn-primary"  %>
+  </div>
+  </div>
+
+</.form>

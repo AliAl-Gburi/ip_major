@@ -1,0 +1,37 @@
+<h1><%= gettext "Listing Items" %></h1>
+
+<table class="table table-striped table-hover"> 
+  <thead>
+    <tr>
+      <th><%= gettext "Name" %></th>
+      <th><%= gettext "Description" %></th>
+      <th><%= gettext "Reserve" %></th>
+      <th><%= gettext "Bid start date" %></th>
+      <th><%= gettext "Bid end date" %></th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for item <- @auction.item do %>
+    <tr>
+      <td><%= item.name %></td>
+      <td><%= item.description %></td>
+      <td><%= item.reserve %></td>
+      <td><%= item.bid_start_date %></td>
+      <td><%= item.bid_end_date %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.item_path(@conn, :showItem, @auction.id, item.id) %></span>
+        <%= if AuctionHouseWeb.Plugs.AuthorizationPlug.userOwnsAuction(@conn, @auction.id) do %>
+        <span><%= link "Edit", to: Routes.item_path(@conn, :edit, @auction.id, item.id) %></span>
+        <span><%= link "Delete", to: Routes.item_path(@conn, :delete, @auction.id, item.id), method: :delete, data: [confirm: "Are you sure?"] %></span>
+        <% end %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+<%= if AuctionHouseWeb.Plugs.AuthorizationPlug.userOwnsAuction(@conn, @auction.id) do %>
+<span><%= link "New Item", to: Routes.item_path(@conn, :newI, @auction.id) %> | </span>
+<% end %>

@@ -1,0 +1,34 @@
+<h1><%= gettext "Metrics for %{path} %{method}", path: @path, method: @method %></h1>
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th><%= gettext "ID" %></th>
+      <th><%= gettext "First Name" %></th>
+      <th><%= gettext "Last Name" %></th>
+      <th><%= gettext "Username" %></th>
+      <th><%= gettext "Email" %></th>
+      <th><%= gettext "Number of Visits" %></th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for metric <- @metrics do %>
+    <tr>
+      <td><%= Enum.at(metric, 0) %></td>
+      <td><%= Enum.at(metric, 1) %></td>
+      <td><%= Enum.at(metric, 2) %></td>
+      <td><%= Enum.at(metric, 3) %></td>
+      <td><%= Enum.at(metric, 4) %></td>
+      <td><%= Enum.at(metric, 5) %></td>
+     
+
+      <td>
+        
+        
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

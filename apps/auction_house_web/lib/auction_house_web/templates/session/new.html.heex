@@ -1,0 +1,23 @@
+<!-- templates/session/new.html.eex -->
+<h1 class="my-h1">Login</h1>
+<div class="my-container">
+<%= form_for @changeset, @action, fn f -> %>
+
+<div class="mb-3">
+    <%= label f, :username, class: "form-label" %>
+    <%= text_input f, :username, class: "form-control" %>
+    <%= error_tag f, :username %>
+</div>
+
+<div class="mb-3">
+    <%= label f, :password, class: "form-label" %>
+    <%= password_input f, :password, class: "form-control" %>
+    <%= error_tag f, :password %>
+</div>
+
+<div class="mb-3">
+    <%= submit "Log in", class: "btn btn-primary" %>
+</div>
+
+<% end %>
+</div>

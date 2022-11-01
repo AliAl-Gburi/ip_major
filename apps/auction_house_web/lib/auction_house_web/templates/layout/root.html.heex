@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <%= csrf_meta_tag() %>
+    <%= live_title_tag assigns[:page_title] || "AuctionHouse", suffix: " · Phoenix Framework" %>
+    <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
+    <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark my-nav">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Bidders Den</a>
+    <button class="navbar-toggler"  type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      
+        <li class="nav-item">
+          <%= link "Home", to: Routes.page_path(@conn, :index), class: active_class(@conn, Routes.page_path(@conn, :index))%>
+        </li>
+      
+      <%= if !Guardian.Plug.authenticated?(@conn, []) do %>
+        <li class="nav-item">
+          <%= link "Register", to: Routes.user_path(@conn, :new), class: active_class(@conn, Routes.user_path(@conn, :new))%>
+        </li>
+        <% end %>
+
+        <%= if Guardian.Plug.authenticated?(@conn, []) do %>
+        <li class="nav-item">
+          <%= link "My Auctions", to: Routes.auction_path(@conn, :index), class: active_class(@conn, Routes.auction_path(@conn, :index)) %>
+        </li>
+        <li class="nav-item">
+          <%= link "My Bids", to: Routes.user_path(@conn, :getAllBidsOfUser), class: active_class(@conn, Routes.user_path(@conn, :getAllBidsOfUser)) %>
+        </li>
+        <% end %>
+
+        <li class="nav-item">
+          <%= link "All Auctions", to: Routes.auction_path(@conn, :allAuctions), class: active_class(@conn, Routes.auction_path(@conn, :allAuctions)) %>
+        </li>
+        
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Language
+          </a>
+          <ul class="dropdown-menu my-drop" aria-labelledby="navbarDropdown">
+            <li class="dropdown-item my-drop-item" ><%= new_locale @conn, :en, "English" %></li>
+            <li class="dropdown-item my-drop-item"><%= new_locale @conn, :nl, "Dutch" %></li>
+          </ul>
+        </li>
+
+        <%= if Guardian.Plug.authenticated?(@conn, []) do %>
+          <%= if AuctionHouseWeb.Plugs.AuthorizationPlug.isAdmin(@conn) do %>
+            <li class="nav-item">
+              <%= link "All Users", to: Routes.user_path(@conn, :index), class: active_class(@conn, Routes.user_path(@conn, :index)) %>
+          </li>
+          <li class="nav-item">
+              <%= link "Metrics", to: Routes.metric_path(@conn, :index), class: active_class(@conn, Routes.metric_path(@conn, :index)) %>
+          </li>
+          <li class="nav-item">
+              <%= link "Browser Statistics", to: Routes.metric_path(@conn, :browser), class: active_class(@conn, Routes.metric_path(@conn, :browser)) %>
+          </li>
+          <% end %>
+
+        <% end %>
+       
+      </ul>
+      <%= if Guardian.Plug.authenticated?(@conn, []) do %>
+      <div class="d-flex my-login">
+        
+        <a class="btn btn-outline-light" href="/logout">Log out</a>
+      </div>
+      <% end %>
+      
+
+       <%= if !Guardian.Plug.authenticated?(@conn, []) do %>
+      <div class="d-flex my-login">
+        
+        <a class="btn btn-outline-light" href="/login">Log in</a>
+      </div>
+      <% end %>
+
+    </div>
+  </div>
+</nav>
+    </header>
+    
+    <%= @inner_content %>
+    <footer class="bg-light text-center text-lg-start">
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: #ff6f00; color: white;">
+    © 2022 Copyright: Bidders Den
+  </div>
+  <!-- Copyright -->
+</footer>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</html>

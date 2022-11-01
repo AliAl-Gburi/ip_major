@@ -1,0 +1,30 @@
+<h1>Metrics</h1>
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th><%= gettext "Path" %></th>
+      <th><%= gettext "Request-Type" %></th>
+      <th><%= gettext "Number of Visits" %></th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for metric <- @metrics do %>
+    <tr>
+      <td><%= Enum.at(metric, 0) %></td>
+      <td><%= Enum.at(metric, 1) %></td>
+      <td><%= Enum.at(metric, 2) %></td>
+     
+
+      <td>
+        
+        <span><%= link "Details", to: Routes.metric_path(@conn, :details,  Enum.at(metric, 0), Enum.at(metric, 1)) %></span>
+        
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+

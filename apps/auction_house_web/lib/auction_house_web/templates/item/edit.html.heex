@@ -1,0 +1,5 @@
+<h1 class="my-h1"><%= gettext "Edit Item" %></h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.item_path(@conn, :update, @auction_id,@item)) %>
+
+<span><%= link "Back", to: Routes.auction_path(@conn, :index) %></span>
